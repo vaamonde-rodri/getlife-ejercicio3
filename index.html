@@ -38,14 +38,14 @@
                                         <input class="form-control" id="initDate" name="initDate" type="text" placeholder="Fecha inicial...">
                                         <label for="initDate">Fecha inicial</label>
                                     </div>
-                                    <label id="initDate-error" class="error" for="initDate"></label>
+                                    <label id="initDate-error" class="error" for="initDate" style="display: none"></label>
                                 </div>
                                 <div class="col col-sm-12 col-lg-6 mb-3">
                                     <div class="form-floating">
                                         <input class="form-control" id="endDate" name="endDate" type="text" placeholder="Fecha final...">
                                         <label for="endDate">Fecha final</label>
                                     </div>
-                                    <label id="endDate-error" class="error" for="endDate"></label>
+                                    <label id="endDate-error" class="error" for="endDate" style="display: none"></label>
                                 </div>
                             </div>
                             <div class="d-grid">
@@ -54,6 +54,8 @@
                         </form>
 
                         <div class="alert alert-danger mt-3" role="alert" id="alertError" style="display: none">
+                        </div>
+                        <div class="alert alert-warning mt-3" role="alert" id="alertWarning" style="display: none">
                         </div>
                         <div class="alert alert-success mt-3" role="alert" id="alertResult" style="display: none">
                             Los número de la sucesión de Fibonacci comprendidos entre las fechas indicadas son: <br>

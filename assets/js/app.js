@@ -16,6 +16,12 @@ $(function () {
             $("div#alertError").fadeOut();
         }, 3000);
     }
+    function showWarning(msg) {
+        $("div#alertWarning").text(msg).fadeIn();
+        setTimeout(function () {
+            $("div#alertWarning").fadeOut();
+        }, 3000);
+    }
 
     formDates.validate({
         lang: 'es',
@@ -35,7 +41,7 @@ $(function () {
                 required: "Es necesario indicar una fecha final"
             }
         },
-        submitHandler: function (form) {
+        submitHandler: async function (form) {
             //convertimos formato de fechas, de "DD/MM/YYYY hh:mm" a "YYYY-MM-DD hh:mm:ss"
              const initDate = convertDate($("input[name='initDate']", form).val());
              const endDate = convertDate($("input[name='endDate']", form).val());
@@ -44,14 +50,22 @@ $(function () {
 
                  const url = API_URL + "?initDate=" + initDate + "&endDate=" + endDate;
 
+                 if ($(".alert").is(":visible")) {
+                     $(".alert").fadeOut();
+                     //Detenemos la ejecución durante 1 segundo para darle tiempo al fadeout
+                     await new Promise(resolve => setTimeout(resolve, 1000));
+                 }
+
                  fetch(url).then(response => response.json())
                      .then(data => {
-                         console.log(typeof data.result);
-                         console.log(data.result && typeof data.result === "array")
                          if (data.result && typeof data.result === "object") {
-                             const string = data.result.join(', ');
-                             $("div#alertResult > span#data").html(string);
-                             $("div#alertResult").fadeIn();
+                             if (data.result.length > 0) {
+                                 const string = data.result.join(', ');
+                                 $("div#alertResult > span#data").html(string);
+                                 $("div#alertResult").fadeIn();
+                             } else {
+                                 showWarning("No se han encontrado números de la sucesión de Fibonacci entre las fechas indicadas")
+                             }
                          } else {
                              showError("Ha ocurrido un error al manejar los datos")
                          }
